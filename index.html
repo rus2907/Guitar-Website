@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Reyes — Guitar Lessons</title>
+<meta name="description" content="One-on-one guitar lessons with Marcus Reyes. Acoustic, electric, and songwriting — beginners to advanced, in-person and online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --walnut: #171310;
+    --mahogany: #2E2018;
+    --mahogany-light: #3D2B1F;
+    --brass: #C89B3C;
+    --brass-bright: #E3BE5C;
+    --parchment: #EFE6D3;
+    --parchment-dim: #B8AD98;
+    --steel: #8A8177;
+    --line: rgba(239,230,211,0.14);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--walnut);
+    color:var(--parchment);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  a{ color:inherit; }
+  img,svg{ display:block; max-width:100%; }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; line-height:1.08; letter-spacing:-0.01em; }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  :focus-visible{
+    outline:2px solid var(--brass-bright);
+    outline-offset:3px;
+  }
+
+  /* ---------- FRET DIVIDER SYSTEM ----------
+     Real guitars mark frets 3,5,7,9,12 with inlay dots.
+     We use that exact sequence as our section numbering system
+     instead of generic 01/02/03. */
+  .fret-divider{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .fret-divider .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--brass);
+    flex-shrink:0;
+    box-shadow:0 0 8px rgba(200,155,60,0.5);
+  }
+  .fret-divider .fret-num{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    color:var(--steel);
+    letter-spacing:0.05em;
+  }
+  .fret-divider .rule{
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(23,19,16,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 24px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    letter-spacing:0.01em;
+  }
+  .logo span{ color:var(--brass); }
+  .nav-links{
+    display:flex;
+    gap:32px;
+    list-style:none;
+    font-size:0.92rem;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color:var(--parchment-dim);
+    transition:color 0.2s ease;
+    position:relative;
+  }
+  .nav-links a:hover{ color:var(--parchment); }
+  .nav-cta{
+    display:inline-block;
+    background:var(--brass);
+    color:var(--walnut);
+    font-weight:600;
+    font-size:0.88rem;
+    padding:9px 18px;
+    border-radius:3px;
+    text-decoration:none;
+    transition:background 0.2s ease, transform 0.2s ease;
+  }
+  .nav-cta:hover{ background:var(--brass-bright); transform:translateY(-1px); }
+
+  .menu-btn{
+    display:none;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--parchment);
+    width:40px; height:40px;
+    border-radius:4px;
+    font-size:1.1rem;
+    cursor:pointer;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:168px 0 100px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 700px 500px at 85% 10%, rgba(200,155,60,0.10), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+    position:relative;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4.1rem);
+    margin:18px 0 22px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--brass-bright);
+    font-weight:500;
+  }
+  .hero p.lead{
+    font-size:1.12rem;
+    color:var(--parchment-dim);
+    max-width:46ch;
+    margin-bottom:34px;
+  }
+  .hero-actions{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:40px;
+  }
+  .btn-primary{
+    background:var(--brass);
+    color:var(--walnut);
+    font-weight:600;
+    padding:14px 26px;
+    border-radius:3px;
+    text-decoration:none;
+    font-size:0.95rem;
+    transition:background 0.2s ease, transform 0.2s ease;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-primary:hover{ background:var(--brass-bright); transform:translateY(-2px); }
+  .btn-secondary{
+    border:1px solid var(--line);
+    color:var(--parchment);
+    padding:14px 26px;
+    border-radius:3px;
+    text-decoration:none;
+    font-size:0.95rem;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-secondary:hover{ border-color:var(--brass); background:rgba(200,155,60,0.06); }
+
+  .hero-stats{
+    display:flex;
+    gap:36px;
+  }
+  .hero-stats div strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    color:var(--brass-bright);
+  }
+  .hero-stats div span{
+    font-size:0.8rem;
+    color:var(--steel);
+    font-family:'Space Mono', monospace;
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- FRETBOARD SVG (signature element) ---------- */
+  .fretboard-wrap{
+    position:relative;
+  }
+  .fb-caption{
+    font-family:'Space Mono', monospace;
+    font-size:0.75rem;
+    color:var(--steel);
+    text-align:center;
+    margin-top:14px;
+    letter-spacing:0.03em;
+  }
+  .fb-caption strong{ color:var(--brass); }
+
+  @keyframes ring{
+    0%{ opacity:0; transform:scale(0.4); }
+    40%{ opacity:1; }
+    100%{ opacity:0; transform:scale(2.6); }
+  }
+  .pulse-ring{
+    animation:ring 2.6s ease-out infinite;
+    transform-origin:center;
+  }
+  .pulse-ring.d1{ animation-delay:0s; }
+  .pulse-ring.d2{ animation-delay:0.65s; }
+  .pulse-ring.d3{ animation-delay:1.3s; }
+  .pulse-ring.d4{ animation-delay:1.95s; }
+
+  /* ---------- SECTION BASE ---------- */
+  section{ padding:96px 0; }
+  .section-head{ max-width:60ch; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(1.8rem, 3.2vw, 2.5rem); margin-top:14px; }
+  .section-head p{ color:var(--parchment-dim); margin-top:14px; font-size:1.02rem; }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    background:var(--mahogany);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .about-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:64px;
+    align-items:start;
+  }
+  .about-portrait{
+    aspect-ratio:4/5;
+    border-radius:6px;
+    background:
+      linear-gradient(155deg, var(--mahogany-light), var(--walnut) 70%);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    padding:24px;
+  }
+  .about-portrait .tag{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--steel);
+    letter-spacing:0.04em;
+  }
+  .about-portrait svg{ position:absolute; inset:0; width:100%; height:100%; opacity:0.9; }
+  .about-copy p{ color:var(--parchment-dim); margin-bottom:16px; font-size:1.02rem; }
+  .about-copy p strong{ color:var(--parchment); font-weight:600; }
+  .credentials{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:24px;
+  }
+  .credentials span{
+    font-family:'Space Mono', monospace;
+    font-size:0.74rem;
+    border:1px solid var(--line);
+    padding:7px 12px;
+    border-radius:20px;
+    color:var(--parchment-dim);
+  }
+
+  /* ---------- LESSON PATHS ---------- */
+  .paths-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .path-card{
+    background:var(--mahogany);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:32px 28px;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .path-card:hover{ transform:translateY(-4px); border-color:rgba(200,155,60,0.4); }
+  .path-card .fret-mark{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--brass);
+    letter-spacing:0.05em;
+    margin-bottom:16px;
+    display:block;
+  }
+  .path-card h3{ font-size:1.35rem; margin-bottom:10px; }
+  .path-card p{ color:var(--parchment-dim); font-size:0.96rem; margin-bottom:18px; }
+  .path-card ul{ list-style:none; }
+  .path-card li{
+    font-size:0.9rem;
+    color:var(--parchment-dim);
+    padding-left:18px;
+    position:relative;
+    margin-bottom:8px;
+  }
+  .path-card li::before{
+    content:'—';
+    position:absolute; left:0;
+    color:var(--brass);
+  }
+
+  /* ---------- PRICING ---------- */
+  .pricing{
+    background:var(--mahogany);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .pricing-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .price-card{
+    background:var(--walnut);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+  }
+  .price-card.featured{
+    border-color:var(--brass);
+    box-shadow:0 0 0 1px rgba(200,155,60,0.25), 0 20px 50px rgba(0,0,0,0.35);
+    position:relative;
+  }
+  .price-card.featured::before{
+    content:'MOST BOOKED';
+    position:absolute;
+    top:-11px; left:28px;
+    background:var(--brass);
+    color:var(--walnut);
+    font-family:'Space Mono', monospace;
+    font-size:0.65rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    padding:4px 10px;
+    border-radius:3px;
+  }
+  .price-card h3{ font-size:1.2rem; margin-bottom:6px; }
+  .price-card .price{
+    font-family:'Fraunces', serif;
+    font-size:2.4rem;
+    color:var(--brass-bright);
+    margin:14px 0 4px;
+  }
+  .price-card .price sub{ font-family:'Work Sans'; font-size:0.9rem; color:var(--steel); }
+  .price-card .unit{ font-size:0.82rem; color:var(--steel); margin-bottom:22px; }
+  .price-card ul{ list-style:none; margin-bottom:26px; flex-grow:1; }
+  .price-card li{
+    font-size:0.9rem;
+    color:var(--parchment-dim);
+    padding:8px 0;
+    border-top:1px solid var(--line);
+  }
+  .price-card li:first-child{ border-top:none; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+  }
+  .testimonial{
+    background:var(--mahogany);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:28px;
+  }
+  .testimonial .stars{ color:var(--brass); font-size:0.9rem; margin-bottom:14px; letter-spacing:2px; }
+  .testimonial p{ font-size:0.98rem; color:var(--parchment-dim); margin-bottom:18px; font-style:italic; }
+  .testimonial .who{ font-size:0.85rem; font-family:'Space Mono', monospace; color:var(--steel); }
+  .testimonial .who strong{ color:var(--parchment); font-family:'Work Sans'; font-style:normal; }
+
+  /* ---------- FAQ ---------- */
+  .faq-item{
+    border-top:1px solid var(--line);
+    padding:22px 0;
+  }
+  .faq-item:last-child{ border-bottom:1px solid var(--line); }
+  .faq-q{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    gap:20px;
+    background:none;
+    border:none;
+    width:100%;
+    text-align:left;
+    color:var(--parchment);
+    font-family:'Fraunces', serif;
+    font-size:1.08rem;
+    font-weight:500;
+    padding:0;
+  }
+  .faq-q .plus{
+    font-family:'Space Mono', monospace;
+    color:var(--brass);
+    font-size:1.3rem;
+    transition:transform 0.25s ease;
+    flex-shrink:0;
+  }
+  .faq-item.open .plus{ transform:rotate(45deg); }
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .faq-a p{
+    color:var(--parchment-dim);
+    padding-top:14px;
+    font-size:0.95rem;
+    max-width:64ch;
+  }
+
+  /* ---------- CONTACT / CTA ---------- */
+  .contact{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 0%, rgba(200,155,60,0.10), transparent 65%),
+      var(--mahogany);
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .contact h2{ font-size:clamp(2rem, 4vw, 2.8rem); margin-bottom:16px; }
+  .contact p.lead{ color:var(--parchment-dim); max-width:50ch; margin:0 auto 36px; }
+  .contact-form{
+    max-width:520px;
+    margin:0 auto;
+    text-align:left;
+  }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .contact-form label{
+    display:block;
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--steel);
+    margin-bottom:8px;
+  }
+  .contact-form input, .contact-form select, .contact-form textarea{
+    width:100%;
+    background:var(--walnut);
+    border:1px solid var(--line);
+    border-radius:4px;
+    color:var(--parchment);
+    padding:12px 14px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.95rem;
+  }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus{
+    border-color:var(--brass);
+    outline:none;
+  }
+  .contact-form textarea{ resize:vertical; min-height:100px; margin-bottom:20px; }
+  .form-note{
+    font-size:0.82rem;
+    color:var(--steel);
+    margin-top:16px;
+    text-align:center;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:44px 0;
+    border-top:1px solid var(--line);
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .footer-grid .logo{ font-size:1rem; }
+  .footer-links{
+    display:flex;
+    gap:24px;
+    list-style:none;
+    font-size:0.85rem;
+    color:var(--parchment-dim);
+  }
+  .footer-links a{ text-decoration:none; }
+  .footer-links a:hover{ color:var(--brass); }
+  .copyright{ font-size:0.8rem; color:var(--steel); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .nav-links, .nav-cta{ display:none; }
+    .menu-btn{ display:block; }
+    header.open .nav-links{
+      display:flex;
+      flex-direction:column;
+      position:absolute;
+      top:100%; left:0; right:0;
+      background:var(--walnut);
+      padding:20px 24px 28px;
+      border-bottom:1px solid var(--line);
+      gap:18px;
+    }
+    header.open .nav-cta{ display:inline-block; margin-top:4px; width:fit-content; }
+
+    .hero{ padding:140px 0 70px; }
+    .hero-grid{ grid-template-columns:1fr; gap:48px; }
+    .fretboard-wrap{ order:-1; max-width:420px; margin:0 auto; }
+    .hero-stats{ gap:24px; flex-wrap:wrap; }
+
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .about-portrait{ max-width:340px; margin:0 auto; aspect-ratio:16/10; }
+
+    .paths-grid, .pricing-grid, .testimonial-grid{ grid-template-columns:1fr; }
+    .price-card.featured{ order:-1; }
+
+    .form-row{ grid-template-columns:1fr; }
+    section{ padding:64px 0; }
+  }
+
+  @media (max-width:480px){
+    .hero-actions{ flex-direction:column; }
+    .hero-actions a{ text-align:center; }
+    .hero-stats{ gap:28px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <a href="#top" class="logo">Marcus <span>Reyes</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#lessons">Lessons</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book a lesson</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Guitar lessons · in-person &amp; online</span>
+        <h1>Learn guitar the way you <em>actually</em> hear it.</h1>
+        <p class="lead">One-on-one lessons for absolute beginners through gigging players. No canned method book — we build a plan around the songs and sound you showed up for.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book your first lesson</a>
+          <a href="#lessons" class="btn-secondary">See how lessons work</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>11 yrs</strong><span>teaching experience</span></div>
+          <div><strong>230+</strong><span>students taught</span></div>
+          <div><strong>4.9/5</strong><span>average rating</span></div>
+        </div>
+      </div>
+
+      <div class="fretboard-wrap">
+        <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a guitar fretboard playing a G major chord">
+          <defs>
+            <linearGradient id="neckGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3D2B1F"/>
+              <stop offset="100%" stop-color="#2E2018"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="420" height="260" rx="10" fill="url(#neckGrad)" stroke="rgba(239,230,211,0.14)"/>
+          <!-- frets -->
+          <g stroke="rgba(239,230,211,0.22)" stroke-width="2">
+            <line x1="60" y1="20" x2="60" y2="240"/>
+            <line x1="120" y1="20" x2="120" y2="240"/>
+            <line x1="180" y1="20" x2="180" y2="240"/>
+            <line x1="240" y1="20" x2="240" y2="240"/>
+            <line x1="300" y1="20" x2="300" y2="240"/>
+            <line x1="360" y1="20" x2="360" y2="240"/>
+          </g>
+          <!-- nut -->
+          <rect x="14" y="18" width="6" height="224" fill="#EFE6D3" opacity="0.8"/>
+          <!-- strings -->
+          <g stroke="#B8AD98" stroke-width="1.4" opacity="0.85">
+            <line x1="18" y1="40" x2="404" y2="40"/>
+            <line x1="18" y1="76" x2="404" y2="76"/>
+            <line x1="18" y1="112" x2="404" y2="112"/>
+            <line x1="18" y1="148" x2="404" y2="148"/>
+            <line x1="18" y1="184" x2="404" y2="184"/>
+            <line x1="18" y1="220" x2="404" y2="220"/>
+          </g>
+          <!-- inlay dots (fret 3 style) -->
+          <circle cx="150" cy="130" r="5" fill="rgba(239,230,211,0.18)"/>
+          <!-- fingered notes for a G-major-ish voicing, with pulse rings for "played" feel -->
+          <circle class="pulse-ring d1" cx="60" cy="40" r="10" fill="none" stroke="#C89B3C" stroke-width="1.5"/>
+          <circle cx="60" cy="40" r="9" fill="#C89B3C"/>
+
+          <circle class="pulse-ring d2" cx="120" cy="184" r="10" fill="none" stroke="#E3BE5C" stroke-width="1.5"/>
+          <circle cx="120" cy="184" r="9" fill="#E3BE5C"/>
+
+          <circle class="pulse-ring d3" cx="120" cy="220" r="10" fill="none" stroke="#C89B3C" stroke-width="1.5"/>
+          <circle cx="120" cy="220" r="9" fill="#C89B3C"/>
+
+          <circle class="pulse-ring d4" cx="180" cy="40" r="10" fill="none" stroke="#E3BE5C" stroke-width="1.5"/>
+          <circle cx="180" cy="40" r="9" fill="#E3BE5C"/>
+        </svg>
+        <p class="fb-caption">Bar 1 of "Wonderwall" — <strong>G major</strong>, the first chord most students play back to a friend.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="fret-divider"><span class="dot"></span><span class="fret-num">FRET 03</span><span class="rule"></span></div>
+      <div class="about-grid">
+        <div class="about-portrait">
+          <svg viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="spot" cx="50%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="rgba(200,155,60,0.16)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="260" fill="url(#spot)"/>
+            <g opacity="0.5" stroke="#8A8177" stroke-width="1">
+              <line x1="40" y1="0" x2="40" y2="260"/>
+              <line x1="90" y1="0" x2="90" y2="260"/>
+              <line x1="140" y1="0" x2="140" y2="260"/>
+              <line x1="190" y1="0" x2="190" y2="260"/>
+              <line x1="240" y1="0" x2="240" y2="260"/>
+            </g>
+          </svg>
+          <span class="tag">PHOTO — MARCUS, STUDIO B</span>
+        </div>
+        <div class="about-copy">
+          <span class="eyebrow">Your teacher</span>
+          <h2 style="margin:14px 0 20px;">Eleven years of lessons, distilled into one that fits you.</h2>
+          <p><strong>Marcus Reyes</strong> started teaching out of a spare bedroom in 2015 and has since taught over 230 students — from eight-year-olds picking up their first chord to touring musicians tightening up their rhythm work.</p>
+          <p>He studied jazz and session guitar, but most of his week is spent teaching pop, rock, folk, and blues — because that's what most students actually want to play. Every lesson plan starts with the songs you already love, not a workbook.</p>
+          <p>Lessons happen at his home studio in Rotterdam, or over video call for students further out.</p>
+          <div class="credentials">
+            <span>Conservatory-trained</span>
+            <span>Rock School examiner</span>
+            <span>Kids &amp; adult students</span>
+            <span>Acoustic + electric</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LESSON PATHS -->
+  <section id="lessons">
+    <div class="wrap">
+      <div class="fret-divider"><span class="dot"></span><span class="fret-num">FRET 05</span><span class="rule"></span></div>
+      <div class="section-head">
+        <span class="eyebrow">How lessons work</span>
+        <h2>Three starting points, one plan built around you.</h2>
+        <p>Every student starts with a free 15-minute call to figure out goals, gear, and pace — then lessons are shaped from there.</p>
+      </div>
+      <div class="paths-grid">
+        <div class="path-card">
+          <span class="fret-mark">FOR NEW PLAYERS</span>
+          <h3>Absolute Beginner</h3>
+          <p>Never held a guitar, or picked it up and put it down a few times. We start with posture, first chords, and songs you'll actually recognize by lesson three.</p>
+          <ul>
+            <li>Open chords &amp; strumming patterns</li>
+            <li>Basic rhythm &amp; timing</li>
+            <li>Your first full song, start to finish</li>
+          </ul>
+        </div>
+        <div class="path-card">
+          <span class="fret-mark">FOR RETURNING PLAYERS</span>
+          <h3>Intermediate Builder</h3>
+          <p>You know your chords but hit a wall — barre chords, changing cleanly, playing with others. We target exactly where you've stalled.</p>
+          <ul>
+            <li>Barre chords &amp; movable shapes</li>
+            <li>Lead basics &amp; scales</li>
+            <li>Playing in time with a band or track</li>
+          </ul>
+        </div>
+        <div class="path-card">
+          <span class="fret-mark">FOR SERIOUS PLAYERS</span>
+          <h3>Advanced &amp; Songwriting</h3>
+          <p>For players working on technique, improvisation, or writing their own material. Sessions are built around your repertoire and goals, gig or studio.</p>
+          <ul>
+            <li>Improvisation &amp; music theory</li>
+            <li>Songwriting &amp; arrangement</li>
+            <li>Recording &amp; performance prep</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <div class="fret-divider"><span class="dot"></span><span class="fret-num">FRET 07</span><span class="rule"></span></div>
+      <div class="section-head">
+        <span class="eyebrow">Rates</span>
+        <h2>Simple, per-lesson pricing.</h2>
+        <p>No long contracts. Pay lesson-by-lesson, or save with a 4-pack. Cancel or reschedule up to 24 hours ahead, free.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Single Lesson</h3>
+          <div class="price">€35</div>
+          <div class="unit">per 45-minute session</div>
+          <ul>
+            <li>1-on-1, in-person or online</li>
+            <li>Flexible scheduling</li>
+            <li>No commitment</li>
+          </ul>
+          <a href="#contact" class="btn-secondary" style="text-align:center;">Book one lesson</a>
+        </div>
+        <div class="price-card featured">
+          <h3>4-Lesson Pack</h3>
+          <div class="price">€120 <sub>/ mo</sub></div>
+          <div class="unit">€30 per session — save 15%</div>
+          <ul>
+            <li>Weekly lesson, same time slot held</li>
+            <li>Practice plan between sessions</li>
+            <li>WhatsApp support for quick questions</li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="text-align:center;">Start the 4-pack</a>
+        </div>
+        <div class="price-card">
+          <h3>Kids' Lessons</h3>
+          <div class="price">€28</div>
+          <div class="unit">per 30-minute session, ages 7–12</div>
+          <ul>
+            <li>Shorter, game-based format</li>
+            <li>Progress notes for parents</li>
+            <li>Recital opportunities twice a year</li>
+          </ul>
+          <a href="#contact" class="btn-secondary" style="text-align:center;">Book for my child</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="fret-divider"><span class="dot"></span><span class="fret-num">FRET 09</span><span class="rule"></span></div>
+      <div class="section-head">
+        <span class="eyebrow">What students say</span>
+        <h2>Real progress, in their own words.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>"I'd tried to teach myself for two years and stalled completely. Three months with Marcus and I can finally play through a full song without stopping."</p>
+          <div class="who"><strong>Sanne V.</strong> — adult beginner</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>"My son actually asks to practice now. The lessons feel like play, not homework, and he's genuinely improving every week."</p>
+          <div class="who"><strong>Daniel K.</strong> — parent of a student, age 9</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>"Sharpened my improvising more in six sessions than in years of noodling on my own. Straightforward feedback, no fluff."</p>
+          <div class="who"><strong>Priya M.</strong> — intermediate/advanced student</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="fret-divider"><span class="dot"></span><span class="fret-num">FRET 12</span><span class="rule"></span></div>
+      <div class="section-head">
+        <span class="eyebrow">Questions</span>
+        <h2>Before you book.</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q"><span>Do I need my own guitar?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes, for regular practice at home — but you don't need one for a first lesson. Marcus can also advise on a starter guitar that fits your budget before you buy anything.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Where do in-person lessons happen?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>At the home studio in Rotterdam. Street parking and bike racks are available nearby, and the exact address is shared after booking.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>Can I switch between online and in-person?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes — many students mix both depending on their week. Just note it when booking each session.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>What if I need to cancel?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Cancel or reschedule up to 24 hours before your slot at no charge. Late cancellations use up that session's credit.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="eyebrow">Get started</span>
+      <h2>Ready for your first lesson?</h2>
+      <p class="lead">Send a few details and Marcus will reply within a day to set up your free 15-minute intro call.</p>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="level">Experience level</label>
+            <select id="level" name="level">
+              <option>Absolute beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+              <option>Booking for my child</option>
+            </select>
+          </div>
+          <div>
+            <label for="format">Preferred format</label>
+            <select id="format" name="format">
+              <option>In-person (Rotterdam)</option>
+              <option>Online</option>
+              <option>Either works</option>
+            </select>
+          </div>
+        </div>
+        <label for="message">What do you want to learn?</label>
+        <textarea id="message" name="message" placeholder="e.g. I want to play through a few songs I love, and get more confident with barre chords."></textarea>
+        <button type="submit" class="btn-primary" style="width:100%;">Request my intro call</button>
+      </form>
+      <p class="form-note">This form is a template — connect it to your email or booking tool of choice to go live.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <a href="#top" class="logo">Marcus <span>Reyes</span></a>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#lessons">Lessons</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span class="copyright">© 2026 Marcus Reyes Guitar Lessons</span>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const header = document.getElementById('site-header');
+  menuBtn.addEventListener('click', () => {
+    const isOpen = header.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+  });
+  // Close mobile menu after tapping a link
+  document.querySelectorAll('.nav-links a, .nav-cta').forEach(link => {
+    link.addEventListener('click', () => {
+      header.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    const answer = item.querySelector('.faq-a');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen){
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Simple form handler (placeholder — wire up to real backend/email service)
+  function handleSubmit(e){
+    e.preventDefault();
+    alert('Thanks! This form is a template — connect it to an email service (like Formspree) or booking tool to receive real submissions.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
